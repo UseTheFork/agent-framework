@@ -1,3 +1,11 @@
+---
+name: generate-feature
+description: Plan and generate a new feature for an existing agent-framework project. Interviews the user, researches the codebase, then generates a feature prompt, task list, and notes file. Use when adding a feature to a project that already has a project prompt and task list.
+user-invocable: true
+allowed-tools: Read, Glob, Grep, Write, Bash, WebFetch, WebSearch, Agent
+argument-hint: [feature-name]
+---
+
 # Agent Framework — Feature Generator
 
 You are helping the user plan and set up a new feature for an existing project that already uses the agent framework (has a project prompt, task list, and notes file). Your job is to **interview the user**, **research the codebase**, and **generate two files**: a feature prompt and a feature task list.

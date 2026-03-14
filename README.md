@@ -1,61 +1,44 @@
 # Agent Framework
 
-A structured framework for running AI coding agents across multiple sessions on a single project.
+A collection of reusable Claude Code skills — self-contained prompts that teach an agent how to perform specific workflows.
 
-## The problem
+## Install
 
-AI coding agents lose context between sessions. You end up re-explaining the project, the agent redoes work or goes in the wrong direction, and there's no persistent record of what's been done or decided.
+Add this to your `~/CLAUDE.md` so the agent can discover skills automatically:
+
+```markdown
+Before starting any task, read the skill router at /path/to/agent-framework/ROUTER.md.
+Follow the instructions of every skill that matches the task. If no skill matches, proceed normally.
+```
+
+Replace `/path/to/agent-framework` with the actual path (e.g. `~/git/agent-framework`).
 
 ## How it works
 
-Every project gets three files:
-
-1. **Prompt file** (`<project>-prompt.md`) — The project spec: what you're building, tech stack, user flows, key files, and the workflow the agent follows. Paste this into the agent at the start of each session.
-2. **Task list** (`memory/<project>-tasks.md`) — An ordered checklist of every task. The agent picks up the first unchecked task, does it, marks it done, and stops.
-3. **Notes file** (`memory/<project>-notes.md`) — A living document of architecture decisions, technical reference, and open questions. The agent reads this for context and updates it with new findings.
-
-The agent reads all three files at the start of each session, executes one task, updates the task list and notes, and reports what it did.
+Each skill is a `SKILL.md` file containing a complete prompt. Skills can be invoked as Claude Code slash commands or pasted into any AI chat. The [`ROUTER.md`](ROUTER.md) file lets agents discover and select skills automatically without slash commands.
 
 ## Getting started
 
-### 1. Scaffold a new project
+### With Claude Code
 
-Paste the contents of `generator-prompt.md` into an AI chat (Claude, ChatGPT, etc.). It will interview you about your project and generate all three files.
+Install the skills by copying `.claude/skills/` into your project (or `~/.claude/skills/` for global access). Then invoke them as slash commands (e.g. `/generate-project`, `/run-tasks`).
 
-The generator will:
-- Ask about your project, tech stack, and goals
-- Research libraries and APIs you mention
-- Draft a task breakdown and iterate with you
-- Generate the prompt, task list, and notes files
+### Autonomous skill discovery
 
-### 2. Add features
+Point any agent at [`ROUTER.md`](ROUTER.md) and it will match the task to the right skill automatically.
 
-Once your project is scaffolded, use `feature-prompt.md` to plan and add new features. Paste it into an AI chat and it will interview you about the feature, read your codebase, and generate:
+### Without Claude Code
 
-1. **Feature prompt** (`<feature>-prompt.md`) — A self-contained prompt for the feature with overview, architecture decisions, key files, and patterns to follow.
-2. **Feature tasks** (`memory/<feature>-tasks.md`) — Task checklist scoped to the feature.
-3. **Feature notes** (`memory/<feature>-notes.md`) — Feature-specific context, decisions, and technical reference.
+The skill files at `.claude/skills/*/SKILL.md` contain the full prompts. Paste the contents of any `SKILL.md` into any AI chat and it will work — the frontmatter is ignored by non-Claude-Code tools.
 
-Run the feature prompt the same way you run the project prompt — paste it in, the agent picks up the next task, does it, and stops.
+## Skills
 
-### Or write them manually
+| Skill | Description |
+|-------|-------------|
+| [`generate-project`](.claude/skills/generate-project/SKILL.md) | Scaffold a new agent-framework project via interview |
+| [`generate-feature`](.claude/skills/generate-feature/SKILL.md) | Plan and add a feature to an existing project |
+| [`run-tasks`](.claude/skills/run-tasks/SKILL.md) | Automate task execution with Opus sub-agents |
 
-Use the template structures in `generator-prompt.md` and `feature-prompt.md` as a reference and create the files yourself.
+## License
 
-## Usage
-
-Each agent session:
-
-1. Paste the prompt file into a new agent session
-2. The agent reads the task list and notes
-3. It executes the first unchecked task
-4. It updates both files with progress and findings
-5. It stops and reports what it did
-
-Repeat until done.
-
-## Files
-
-- `generator-prompt.md` — The meta-prompt. Give this to your AI to scaffold a new project.
-- `feature-prompt.md` — The feature meta-prompt. Give this to your AI to plan and add a feature to an existing project.
-
+MIT

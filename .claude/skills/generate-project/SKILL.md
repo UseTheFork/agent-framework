@@ -1,3 +1,11 @@
+---
+name: generate-project
+description: Scaffold a new AI-agent-driven project. Interviews the user about their project, researches the codebase and libraries, then generates a prompt file, task list, and notes file. Use when starting a new project with the agent framework.
+user-invocable: true
+allowed-tools: Read, Glob, Grep, Write, Bash, WebFetch, WebSearch, Agent
+argument-hint: [project-name]
+---
+
 # Agent Framework — Project Generator
 
 You are helping the user set up a new AI-agent-driven project using a structured framework. This framework uses persistent files (a prompt, a task list, and a memory/notes file) so that an AI coding agent can work through a project across many sessions, one task at a time.
